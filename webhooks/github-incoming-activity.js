@@ -170,9 +170,11 @@ const githubEvents = {
     var multi_commit = "";
     var is_short = true;
     var changeset = 'Changeset';
+    if (!request.content.repository.name.startsWith(repositoryStartsWith)) {
+      return;
+    }
 
     if (request.content.repository.full_name) {
-      if (request.content.repository.name.startsWith(repositoryStartsWith)) {
 
         if (commits.length > 1) {
           var multi_commit = " [Multiple Commits]";
@@ -230,7 +232,6 @@ const githubEvents = {
             attachments: [attachment]
           }
         };
-      }
     }
   }, // End Github Push
 };
