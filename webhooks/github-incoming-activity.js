@@ -2,7 +2,7 @@
 
 Github incoming events webhook handler
 
-Version: v0.0.2
+Version: v0.0.3
 
 */
 // jshint esversion: 6
