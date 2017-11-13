@@ -169,75 +169,78 @@ const githubEvents = {
     var changeset = 'Changeset';
 
     if (request.content.repository.full_name) {
-      if (request.content.repository.name.substring(0,7)=='planet4') {
+      if (request.content.repository.name.substring(0, 7) == 'planet4') {
 
-		if ( commits.length > 1 ) {
-		  var multi_commit = " [Multiple Commits]";
-		  var is_short = false;
-		  var changeset = changeset + 's';
-		  var output = [];
-		}
-		const user = request.content.sender;
-		const attachment = {
-		  author_icon: svg_inline_prefix + gh_cmit_svg,
-		  author_name: "Message: " + request.content.head_commit.message + multi_commit,
-		  author_link: request.content.compare,
-		  fields: []
-		};
+        if (commits.length > 1) {
+          var multi_commit = " [Multiple Commits]";
+          var is_short = false;
+          var changeset = changeset + 's';
+          var output = [];
+        }
+        const user = request.content.sender;
+        const attachment = {
+          author_icon: svg_inline_prefix + gh_cmit_svg,
+          author_name: "Message: " + request.content.head_commit.message + multi_commit,
+          author_link: request.content.compare,
+          fields: []
+        };
 
-		if (request.content.repository.full_name) {
-		  attachment.fields.push({
-			title: 'Repo',
-			value: "["+request.content.repository.full_name+"]("+request.content.repository.url+")",
-			short: is_short
-		  });
-		}
+        if (request.content.repository.full_name) {
+          attachment.fields.push({
+            title: 'Repo',
+            value: "[" + request.content.repository.full_name + "](" + request.content.repository.url + ")",
+            short: is_short
+          });
+        }
 
-		for (var i = 0; i < commits.length; i++) {
-		  var commit = commits[i];
-		  var shortID = commit.id.substring(0,7);
-		  if ( commits.length > 1 ) {
-			a = '[' + shortID + '](' + commit.url + ') - ' + commit.message;
-			output.push( a );
-		  } else {
-			var output = "["+shortID+"]("+commit.url+")";
-		  }
-		}
-		if (commits.length > 1) {
-		  attachment.fields.push({
-			title: changeset,
-			value: output.reverse().join("\n"),
-			short: is_short
-		  });
-		} else {
-		  attachment.fields.push({
-			title: changeset,
-			value: output,
-			short: is_short
-		  });
-		}
+        for (var i = 0; i < commits.length; i++) {
+          var commit = commits[i];
+          var shortID = commit.id.substring(0, 7);
+          if (commits.length > 1) {
+            a = '[' + shortID + '](' + commit.url + ') - ' + commit.message;
+            output.push(a);
+          } else {
+            var output = "[" + shortID + "](" + commit.url + ")";
+          }
+        }
+        if (commits.length > 1) {
+          attachment.fields.push({
+            title: changeset,
+            value: output.reverse().join("\n"),
+            short: is_short
+          });
+        } else {
+          attachment.fields.push({
+            title: changeset,
+            value: output,
+            ı
+            short: is_short
+          });
+        }
 
-		const text = ':ballot_box_with_check: Pushed to ' + "["+request.content.ref.split('/').pop()+"]";
+        const text = ':ballot_box_with_check: Pushed to ' + "[" + request.content.ref.split('/').pop() + "]";
 
-		return {
-		  content: {
-			icon_url: user.avatar_url,
-			alias: user.login,
-			text: text,
-			attachments: [attachment]
-		  }
-		};
-	  }
-	}
-  },  // End Github Push
+        return {
+          content: {
+            icon_url: user.avatar_url,
+            alias: user.login,
+            text: text,
+            attachments: [attachment]
+          }
+        };
+      }
+    }
+  }, // End Github Push
 };
 
 class Script {
-  process_incoming_request({ request }) {
+  process_incoming_request({
+    request
+  }) {
     const header = request.headers['x-github-event'];
-	  if (githubEvents[header]) {
-		return githubEvents[header](request);
-	  }
+    if (githubEvents[header]) {
+      return githubEvents[header](request);
+    }
 
     return {
       error: {
