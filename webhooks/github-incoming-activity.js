@@ -2,7 +2,7 @@
 
 Github incoming events webhook handler
 
-Version: v0.0.2
+Version: v0.0.3
 
 */
 // jshint esversion: 6
@@ -172,10 +172,6 @@ const githubEvents = {
     var changeset = 'Changeset';
     var output = [];
 
-    if (!request.content.repository.name.startsWith(repositoryStartsWith)) {
-      return;
-    }
-
     if (request.content.repository.full_name) {
 
       if (commits.length > 1) {
@@ -223,6 +219,16 @@ class Script {
     request
   }) {
     const header = request.headers['x-github-event'];
+
+    if (repositoryStartsWith.length && !request.content.repository.name.startsWith(repositoryStartsWith)) {
+      return {
+        error: {
+          success: false,
+          message: 'Repository not monitored: ' + request.content.repository.name
+        }
+      };
+    }
+
     if (githubEvents[header]) {
       return githubEvents[header](request);
     }
