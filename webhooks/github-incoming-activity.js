@@ -215,7 +215,6 @@ const githubEvents = {
           attachment.fields.push({
             title: changeset,
             value: output,
-            ı
             short: is_short
           });
         }
