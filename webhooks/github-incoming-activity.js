@@ -14,7 +14,7 @@ const gh_iss_svg = '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" c
 const svg_inline_prefix = 'data:image/svg+xml;ascii,';
 // End embedded images
 
-const repositoryStartsWith='planet4';
+const repositoryStartsWith = 'planet4';
 
 const getLabelsField = (labels) => {
   let labelsArray = [];
