@@ -167,7 +167,7 @@ const githubEvents = {
   //// Github push event
   push(request) {
     var commits = request.content.commits;
-    var multi_commit = ""
+    var multi_commit = "";
     var is_short = true;
     var changeset = 'Changeset';
 
